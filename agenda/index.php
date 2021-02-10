@@ -30,14 +30,31 @@
 
             </fieldset>
         </form>
-
+<pre>
 <?php
-    $nome= $_POST["nome"];
-    $telefone= $_POST["telefone"]; 
-    $email= $_POST["email"]; 
-    $cidade= $_POST["cidade"];  
 
-?>        
+    require "bancodedados.php";
+   
+
+    $nome= "";
+    $telefone= ""; 
+    $email= ""; 
+    $cidade= "";
+    
+    $banco_dados = listaContatos();
+
+    if (count($_POST)>0)
+    {
+        $nome= $_POST["nome"];
+        $telefone= $_POST["telefone"]; 
+        $email= $_POST["email"]; 
+        $cidade= $_POST["cidade"];
+        
+        $banco_dados[]= adicionarContato($nome, $telefone, $email, $cidade);
+    }
+    //var_dump($banco_dados); 
+?>
+</pre>        
 
         <table>
             <thead>
@@ -50,12 +67,18 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td><?php echo $nome ?></td>
-                    <td><?php echo $telefone ?></td>
-                    <td><?php echo $email ?></td>
-                    <td><?php echo $cidade ?></td>
-                </tr>            
+        <?php
+            foreach($banco_dados as $linha)
+            {
+        
+                echo " <tr>";
+                echo "<td>" . $linha["nome"] ." </td>";
+                echo "<td>" . $linha["telefone"] ." </td>";
+                echo "<td>" . $linha["email"] ." </td>";
+                echo "<td>" . $linha["cidade"] ." </td>";
+                echo "<tr>";        
+            }
+        ?>    
             </tbody>
 
         </table>
